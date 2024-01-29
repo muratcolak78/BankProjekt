@@ -14,25 +14,30 @@ namespace BankProjekt
             
             while (true)
             {
-
+                Console.ForegroundColor = ConsoleColor.Green;
                 AlleListe.machBeispielList();
-                AlleListe.zeighAlleUser();
                 Kontoinhaber einhaber;
                 BankKontoMenu menu;
 
                 Console.Clear();
-                Console.WriteLine("1. Kayit\t\t2. Giris\t\t3. Cikis");
+                Console.WriteLine("1. Signin\t\t2.Login\t\t3. Exit");
                 string wahl = Console.ReadLine();
                 if (wahl != "3")
                 {
-                    if (wahl == "1")
+                    if (wahl == "4")
                     {
-                        Console.WriteLine("Kullanici adi:");
+                        AlleListe.alleIbanList();
+                        AlleListe.zeighAlleUser();
+                        Console.Read();
+                    }
+                    else if (wahl == "1")
+                    {
+                        Console.WriteLine("Username:");
                         string eingabeUsername = Console.ReadLine().ToLower();
 
                         if (eingabeUsername == null || eingabeUsername.Length! < 5)
                         {
-                            Console.WriteLine("kullanici adi kismi bos biraklilamaz en az 5 karakter olmalidir\n");
+                            Console.WriteLine(" it must be at least 5 characters\n");
                             Thread.Sleep(1000);
 
                         }
@@ -43,33 +48,33 @@ namespace BankProjekt
                                 bool exit = false;
                                 while (!exit)
                                 {
-                                    Console.WriteLine("Sifre:");
+                                    Console.WriteLine("password:");
                                     string eingabePassword = Console.ReadLine().ToLower();
 
                                     if (eingabePassword != "3")
                                     {
                                         if (eingabePassword == "" || eingabePassword.Length < 6)// eger sifre sartlari karsiliyorsa sifre olusturma sarlari belirlenecek (IstPasswordPass(srting Password))
                                         {
-                                            Console.WriteLine("\nsifre en az 6 karakter, en az bir harf ve en az bir rakam icermelidir (3. Cikis)\n");
+                                            Console.WriteLine("\npassword must contain at least 6 characters, at least one letter and at least one number (Exit 3)\n");
                                             Thread.Sleep(1000);
                                         }
                                         else
                                         {
                                             if (IstPasswordPass(eingabePassword))
                                             {
-                                                List<string> user = new List<string>() { eingabeUsername, eingabePassword };
+                                                string [] user = new string [] { eingabeUsername, eingabePassword };
                                                 AlleListe.addUserNamePasswordList(user);
                                                 AlleListe.addUserKontoinhaberList(new Kontoinhaber(eingabeUsername));
 
-                                                Console.WriteLine("kullanic adi ve sifre basariyla kaydedildi.\n");
-                                                Console.WriteLine("yeni kullanici hesabi olusturuldu\n");
-                                               
+                                                Console.WriteLine("username and password successfully registered.\n");
+                                                Console.WriteLine("new user account created\n");
+
                                                 Thread.Sleep(2000);
-                                               
+
                                                 exit = true;
 
                                             }
-                                            else Console.WriteLine("\nsifre en az 6 karakter, en az bir harf ve en az bir rakam icermelidir (3. Cikis)\n");
+                                            else Console.WriteLine("\npassword must contain at least 6 characters, at least one letter and at least one number (Exit 3)\n");
                                             Thread.Sleep(1000);
                                         }
                                     }
@@ -77,43 +82,44 @@ namespace BankProjekt
                                 }
 
                             }
-                            else Console.WriteLine("\nbu adda zaten bir kullanici mevcut lütfen baska bir kullanici adi giriniz.\n");
+                            else Console.WriteLine("\nthere is already a user with this name, please enter another username.\n");
                             Console.ReadKey();
 
                         }
 
                     }
+                    
                     else if (wahl == "2")
                     {
-                        Console.WriteLine("Kullanici adi:");
+                        Console.WriteLine("username:");
                         string eingabeUsername = Console.ReadLine().ToLower();
 
                         if (eingabeUsername != null || eingabeUsername.Length < 5) // eger kullanici adi bos degilse sifre isteniyor
                         {
-                            Console.WriteLine("Sifre:");
+                            Console.WriteLine("password:");
                             string eingabePassword = Console.ReadLine().ToLower();
-                           
+
                             if (eingabePassword != null) // eger sifre bos degilse 
                             {
                                 if (AlleListe.GibtEsSolcheUser(eingabeUsername, eingabePassword))// ve eger listede bu bilgilerde bi hesap sahibi varsa
                                 {
-                                    Console.WriteLine("Hosgeldiniz " + eingabeUsername);// kullanbic bilgileri getiriliyor
-                                    
+                                    Console.WriteLine("Welcome " + eingabeUsername);// kullanbic bilgileri getiriliyor
+
                                     einhaber = AlleListe.getKontoinhaber(eingabeUsername);
                                     menu = new BankKontoMenu(einhaber);
 
                                 }
-                                else Console.WriteLine("\nboyle bir kullanici bulunmamaktadir lütfen kullanici adini ve sifrenizi kontrol ediniz.\n");
+                                else Console.WriteLine("\nthere is no such user please check your username and password.\n");
                                 Console.ReadKey();
                             }
-                            else Console.WriteLine("\nsifre bos birakilamaz\n");
+                            else Console.WriteLine("\npassword cannot be left blank\n");
                             Thread.Sleep(1000);
                         }
-                        else Console.WriteLine("\nkullanici adi kismi bos biraklilamaz en az 5 karakter olmalidir\n");
-                        Thread.Sleep(1000);
+
+
 
                     }
-                    else Console.WriteLine("\nlütfen 1,2 veya 3\n");
+                    else Console.WriteLine("\nlplease 1,2 or 3\n");
                     Thread.Sleep(1000);
 
                 }
